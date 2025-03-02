@@ -1,6 +1,7 @@
 plugins {
     id("java-convention")
     id("web-convention")
+    id("jpa-mysql-convention")
 }
 
 dependencies {
