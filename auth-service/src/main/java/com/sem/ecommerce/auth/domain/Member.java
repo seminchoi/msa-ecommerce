@@ -1,14 +1,16 @@
-package com.sem.ecommerce.auth.entity;
+package com.sem.ecommerce.auth.domain;
 
-import com.sem.ecommerce.auth.domain.Gender;
-import com.sem.ecommerce.auth.domain.Role;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Getter
-@NoArgsConstructor
-public class UserEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Member {
+    private UUID id;
     private String username;
     private String password;
     private String name;
@@ -17,11 +19,12 @@ public class UserEntity {
     private Role role;
 
     @Builder
-    public UserEntity(String email, Gender gender, String name, String password, String username) {
+    public Member(String email, Gender gender, String name, String password, Role role, String username) {
         this.email = email;
         this.gender = gender;
         this.name = name;
         this.password = password;
+        this.role = role;
         this.username = username;
     }
 }
