@@ -1,11 +1,13 @@
-package com.sem.ecommerce.auth.jwt;
+package com.sem.ecommerce.auth.infra.jwt;
 
+import lombok.Getter;
+
+@Getter
 public enum CustomClaims {
-    USERNAME("username"),
-    NAME("name"),
     EMAIL("email"),
+    NAME("name"),
     ROLE("role"),
-    GENDER("gender")
+    PHONE_NUMBER("phoneNumber"),
     ;
 
     CustomClaims(String claimName) {

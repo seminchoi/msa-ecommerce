@@ -11,20 +11,19 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     private UUID id;
-    private String username;
+    private String email;
     private String password;
     private String name;
-    private String email;
-    private Gender gender;
     private Role role;
+    private String phoneNumber;
 
     @Builder
-    public Member(String email, Gender gender, String name, String password, Role role, String username) {
+    public Member(String email, UUID id, String name, String password, String phoneNumber, Role role) {
         this.email = email;
-        this.gender = gender;
+        this.id = id;
         this.name = name;
         this.password = password;
+        this.phoneNumber = phoneNumber;
         this.role = role;
-        this.username = username;
     }
 }
