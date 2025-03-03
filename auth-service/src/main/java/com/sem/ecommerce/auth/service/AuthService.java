@@ -1,6 +1,6 @@
 package com.sem.ecommerce.auth.service;
 
-import com.sem.ecommerce.auth.controller.dto.CustomerSignUpRequest;
+import com.sem.ecommerce.auth.service.dto.request.CustomerSignUpRequest;
 import com.sem.ecommerce.auth.domain.Member;
 import com.sem.ecommerce.auth.domain.Role;
 import com.sem.ecommerce.auth.domain.repository.MemberRepository;

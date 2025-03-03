@@ -1,4 +1,4 @@
-package com.sem.ecommerce.auth.controller.dto;
+package com.sem.ecommerce.auth.service.dto.request;
 
 public record CustomerSignUpRequest(
         String email,
