@@ -4,6 +4,7 @@ import com.sem.ecommerce.auth.service.dto.request.CustomerSignUpRequest;
 import com.sem.ecommerce.auth.domain.Member;
 import com.sem.ecommerce.auth.domain.Role;
 import com.sem.ecommerce.auth.domain.repository.MemberRepository;
+import com.sem.ecommerce.auth.service.dto.response.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,9 @@ public class AuthService {
                 .name(signUpRequest.name())
                 .phoneNumber(signUpRequest.phoneNumber())
                 .build();
+    }
+
+    private TokenResponse login() {
+        return null;
     }
 }
