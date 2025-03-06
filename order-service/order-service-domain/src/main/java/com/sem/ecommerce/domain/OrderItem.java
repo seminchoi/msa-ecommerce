@@ -2,7 +2,7 @@ package com.sem.ecommerce.domain;
 
 import java.util.UUID;
 
-public class OrderProduct {
+public class OrderItem {
     private UUID id;
     private long price;
     private int quantity;

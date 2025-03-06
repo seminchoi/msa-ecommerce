@@ -7,5 +7,5 @@ public class Order {
     private UUID id;
     private ReceiverDetails receiverDetails;
     private OrderState orderState;
-    private List<OrderProduct> orderProduct;
+    private List<OrderItem> orderItems;
 }
