@@ -1,0 +1,16 @@
+name: "Feature"
+description: "새로운 기능을 위한 이슈 템플릿 입니다."
+labels: "feature"
+body:
+  - type: textarea
+    attributes:
+      label: ✏️ Describe
+      description: 새로운 기능의 설명을 작성해 주세요.
+      placeholder: <ul> 혹은 <ol> 형태로 작성해주세요.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🔍️ More
+      description: 더 하고 싶은 말이 있다면 작성해 주세요.

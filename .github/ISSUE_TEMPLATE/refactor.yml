@@ -1,0 +1,16 @@
+name: "Refactor"
+description: "리팩토링을 위한 이슈를 템플릿입니다."
+labels: "refactor"
+body:
+  - type: textarea
+    attributes:
+      label: ✏️ Describe
+      description: 리팩토링 내용을 작성합니다.
+      placeholder: <ul> 혹은 <ol> 형태로 작성합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🔍️ More
+      description: 추가 설명을 작성합니다.

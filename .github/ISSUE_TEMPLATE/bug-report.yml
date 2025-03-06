@@ -1,0 +1,16 @@
+name: "Bug Report"
+description: "버그 리포트 템플릿입니다."
+labels: "bug"
+body:
+  - type: textarea
+    attributes:
+      label: ✏️ Describe
+      description: 버그 발생 상황을 설명합니다.
+      placeholder: 버그 발생 환경, 버그 발생 상황을 자세히 설명합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🔍️ More
+      description: 추가 설명을 작성합니다.
