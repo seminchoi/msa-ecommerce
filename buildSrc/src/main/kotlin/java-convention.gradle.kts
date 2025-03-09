@@ -2,12 +2,6 @@ plugins {
     java
 }
 
-apply {
-    plugin("java-library")
-    plugin("org.springframework.boot")
-    plugin("io.spring.dependency-management")
-}
-
 val lombokVersion by extra("1.18.36")
 
 dependencies {

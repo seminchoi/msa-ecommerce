@@ -1,4 +1,5 @@
 plugins {
+    java
     id("java-convention")
     id("web-convention")
 }
