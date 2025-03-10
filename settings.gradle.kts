@@ -1,5 +1,7 @@
 rootProject.name = "ecommerce"
 
+include("service-discovery")
+include("gateway-service")
 include("auth-service")
 
 // product
@@ -14,4 +16,5 @@ project(":order-service").buildFileName = "build.gradle.disable"
 
 include(":order-service:order-service-domain")
 include(":order-service:order-service")
+include(":order-service:order-api")
 //project(":order-service-domain").projectDir = file("order-service/order-service-domain")
