@@ -1,9 +1,6 @@
-package com.sem.ecommerce.domain;
-
-import java.util.UUID;
+package com.sem.ecommerce.domain.order;
 
 public record ReceiverDetails(
-        UUID receiverId,
         String address,
         String name,
         String phoneNumber) {

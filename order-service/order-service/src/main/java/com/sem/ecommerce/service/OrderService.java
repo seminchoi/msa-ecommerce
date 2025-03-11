@@ -1,6 +1,6 @@
 package com.sem.ecommerce.service;
 
-import com.sem.ecommerce.domain.Order;
+import com.sem.ecommerce.domain.order.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
