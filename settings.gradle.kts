@@ -10,11 +10,7 @@ project(":product-service").buildFileName = "build.gradle.disable"
 
 include(":product-service:product-service-domain")
 
-// order
-include("order-service")
-project(":order-service").buildFileName = "build.gradle.disable"
-
-include(":order-service:order-service-domain")
-include(":order-service:order-service")
-include(":order-service:order-api")
-//project(":order-service-domain").projectDir = file("order-service/order-service-domain")
+include(":order-service", ":order-service-domain", ":order-api")
+project(":order-service-domain").projectDir = file("order-service/order-service-domain")
+project(":order-service").projectDir = file("order-service/order-service")
+project(":order-api").projectDir = file("order-service/order-api")

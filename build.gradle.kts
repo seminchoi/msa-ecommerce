@@ -4,6 +4,17 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
+
+tasks {
+    bootJar {
+        enabled = false
+    }
+
+    jar {
+        enabled = false
+    }
+}
+
 allprojects {
     repositories {
         mavenCentral()
