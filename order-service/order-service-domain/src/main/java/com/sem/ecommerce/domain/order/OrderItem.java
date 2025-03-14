@@ -1,5 +1,8 @@
 package com.sem.ecommerce.domain.order;
 
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
@@ -11,16 +14,28 @@ import java.util.UUID;
 @Getter
 @EqualsAndHashCode(of = "id")
 public class OrderItem {
+    @NotNull
     private UUID id;
-    private UUID productId;
+
+    @NotNull
+    private UUID catalogId;
+
+    @Min(1)
     private long unitPrice;
+
+    @Min(1)
     private int quantity;
+
+    @NotNull
     private ShippingState shippingState;
+
+    @NotNull
     private OrderItemState orderItemState;
 
-    public OrderItem(UUID id, UUID productId, long unitPrice, int quantity, ShippingState shippingState, OrderItemState orderItemState) {
+    @Builder
+    public OrderItem(UUID id, UUID catalogId, long unitPrice, int quantity, ShippingState shippingState, OrderItemState orderItemState) {
         this.id = id;
-        this.productId = productId;
+        this.catalogId = catalogId;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
         this.shippingState = shippingState;
