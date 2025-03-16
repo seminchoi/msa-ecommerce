@@ -2,15 +2,17 @@ rootProject.name = "ecommerce"
 
 include("service-discovery")
 include("gateway-service")
-include("auth-service")
+
+// auth
+include("auth")
 
 // product
-include("product-service")
-project(":product-service").buildFileName = "build.gradle.disable"
+include(":product-domain")
+project(":product-domain").projectDir = file("product/product-domain")
 
-include(":product-service:product-service-domain")
 
-include(":order-service", ":order-service-domain", ":order-api")
-project(":order-service-domain").projectDir = file("order-service/order-service-domain")
-project(":order-service").projectDir = file("order-service/order-service")
-project(":order-api").projectDir = file("order-service/order-api")
+// order
+include(":order-service", ":order-domain", ":order-api")
+project(":order-domain").projectDir = file("order/order-domain")
+project(":order-service").projectDir = file("order/order-service")
+project(":order-api").projectDir = file("order/order-api")
