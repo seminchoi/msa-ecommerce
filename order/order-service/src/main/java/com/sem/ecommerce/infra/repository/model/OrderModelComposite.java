@@ -2,6 +2,7 @@ package com.sem.ecommerce.infra.repository.model;
 
 import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecommerce.domain.order.OrderItem;
+import com.sem.ecommerce.domain.order.OrderItems;
 import com.sem.ecommerce.domain.order.Receiver;
 import lombok.Builder;
 
@@ -31,8 +32,9 @@ public record OrderModelComposite(
                 .build();
     }
 
-    private List<OrderItem> toOrderItems() {
-        return orderItems.stream().map(OrderItemModel::toDomain).toList();
+    private OrderItems toOrderItems() {
+        List<OrderItem> orderItemList = orderItems.stream().map(OrderItemModel::toDomain).toList();
+        return new OrderItems(orderItemList);
     }
 
     public static OrderModelComposite from(Order order) {
@@ -42,7 +44,7 @@ public record OrderModelComposite(
     public static OrderModelComposite from(Order order, boolean isNew) {
         return OrderModelComposite.builder()
                 .order(OrderModel.from(order, isNew))
-                .orderItems(fromOrderItems(order.getId(), order.getOrderItems(), isNew))
+                .orderItems(fromOrderItems(order.getId(), order.getOrderItems().getItems(), isNew))
                 .build();
     }
 

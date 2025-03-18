@@ -49,7 +49,7 @@ public class OrderR2dbcAggregateRepositoryTest {
         FixtureMonkey sut = buildFixtureMonkey();
 
         return sut.giveMeBuilder(Order.class)
-                .thenApply((it, builder) -> builder.set("orderItems[*].orderId", it.getId()))
+                .thenApply((it, builder) -> builder.set("orderItems.orderItems[*].orderId", it.getId()))
                 .sample();
     }
 

@@ -27,11 +27,11 @@ public class Order {
     private OrderState orderState;
 
     @Valid
-    @NotEmpty
-    private List<OrderItem> orderItems;
+    @NotNull
+    private OrderItems orderItems;
 
     @Builder
-    public Order(UUID id, UUID ordererId, Receiver receiver, OrderState orderState, List<OrderItem> orderItems) {
+    public Order(UUID id, UUID ordererId, Receiver receiver, OrderState orderState, OrderItems orderItems) {
         this.id = id;
         this.ordererId = ordererId;
         this.receiver = receiver;

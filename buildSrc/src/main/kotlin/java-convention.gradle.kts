@@ -6,6 +6,8 @@ val lombokVersion by extra("1.18.36")
 
 dependencies {
     implementation("jakarta.validation:jakarta.validation-api:3.1.1")
+    implementation("io.projectreactor:reactor-core")
+
 
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
     annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
