@@ -14,7 +14,7 @@ public class OrderItems {
         this.orderItems = new ArrayList<>(orderItems);
     }
 
-    public List<OrderItem> getItems() {
+    public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
     }
 }
