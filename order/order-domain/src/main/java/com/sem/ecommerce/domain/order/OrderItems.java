@@ -17,4 +17,8 @@ public class OrderItems {
     public List<OrderItem> getOrderItems() {
         return Collections.unmodifiableList(orderItems);
     }
+
+    public long calculateTotalPrice() {
+        return orderItems.stream().mapToLong(OrderItem::calculatePrice).sum();
+    }
 }

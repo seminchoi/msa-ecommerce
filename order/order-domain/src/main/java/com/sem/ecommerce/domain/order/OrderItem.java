@@ -33,4 +33,8 @@ public class OrderItem {
 
     @NotNull
     private OrderItemState orderItemState;
+
+    public long calculatePrice() {
+        return quantity * unitPrice;
+    }
 }
