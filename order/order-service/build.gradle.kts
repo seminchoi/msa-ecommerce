@@ -3,6 +3,7 @@ plugins {
     id("java-convention")
     id("web-convention")
     id("r2dbc-postgres-convention")
+    id("rabbitmq-convention")
 }
 
 tasks {
