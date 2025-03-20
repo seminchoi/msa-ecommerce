@@ -30,7 +30,6 @@ public class Order {
 
     @Valid
     @NotNull
-    @Delegate
     private OrderItems orderItems;
 
     @Builder.Default

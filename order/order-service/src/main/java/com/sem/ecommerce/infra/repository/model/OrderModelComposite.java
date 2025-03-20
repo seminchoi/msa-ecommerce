@@ -44,7 +44,7 @@ public record OrderModelComposite(
     public static OrderModelComposite from(Order order, boolean isNew) {
         return OrderModelComposite.builder()
                 .order(OrderModel.from(order, isNew))
-                .orderItems(fromOrderItems(order.getId(), order.getOrderItems().getItems(), isNew))
+                .orderItems(fromOrderItems(order.getId(), order.getOrderItems().getOrderItems(), isNew))
                 .build();
     }
 

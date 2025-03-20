@@ -1,17 +1,20 @@
 package com.sem.ecommerce.service;
 
 import com.sem.ecommerce.domain.order.Order;
+import com.sem.ecommerce.domain.order.port.OrderServicePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
-    public void createOrder(Order order) {
-        //주문을 생성한다.
-        //주문 정보를 저장한다.
-        //주문 생성 이벤트를 제품 서비스로 발행한다. (재고 감소)
-        //주문 생성 이벤트를 결제 서비스로 발행한다. (결제 처리)
+public class OrderService implements OrderServicePort {
+    @Override
+    public Mono<UUID> createOrder(Order order) {
+
+        return Mono.empty();
     }
 
     public void cancelOrder() {
