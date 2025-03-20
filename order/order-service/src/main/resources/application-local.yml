@@ -9,5 +9,33 @@ spring:
       max-idle-time: 30m
   sql:
     init:
-
       schema-locations: classpath:/init.sql
+
+  cloud:
+    stream:
+      bindings:
+        orderProcessor-out-0:
+          destination: orders
+          content-type: application/json
+
+        orderProcessor-out-1:
+          destination: orders
+          content-type: application/json
+
+      rabbit:
+        bindings:
+
+          orderProcessor-out-0:
+            producer:
+              routing-key-expression: headers['event-type'] #해당 속성을 라우팅키로 사용합니다.
+          orderProcessor-out-1:
+            producer:
+              routing-key-expression: headers['event-type'] #해당 속성을 라우팅키로 사용합니다.
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
