@@ -10,4 +10,6 @@ dependencies {
 
     testImplementation("org.springframework.amqp:spring-rabbit-test")
     testImplementation("org.springframework.cloud:spring-cloud-stream-test-binder")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers")
+    testImplementation("org.testcontainers:rabbitmq")
 }
