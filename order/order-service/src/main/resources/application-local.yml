@@ -24,10 +24,9 @@ spring:
 
       rabbit:
         bindings:
-
           orderProcessor-out-0:
             producer:
-              routing-key-expression: headers['event-type'] #해당 속성을 라우팅키로 사용합니다.
+              routing-key-expression: headers.get('event-type')
           orderProcessor-out-1:
             producer:
               routing-key-expression: headers['event-type'] #해당 속성을 라우팅키로 사용합니다.
