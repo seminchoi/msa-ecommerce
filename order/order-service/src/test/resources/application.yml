@@ -29,6 +29,15 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated  # NONE, SIMPLE, CORRELATED 중 하나 선택
+    publisher-returns: true  # 반환된 메시지에 대한 처리도 활성화
+    template:
+      mandatory: true  # exchange에서 queue로 라우팅되지 않은 메시지 처리
 
 logging:
   level:
