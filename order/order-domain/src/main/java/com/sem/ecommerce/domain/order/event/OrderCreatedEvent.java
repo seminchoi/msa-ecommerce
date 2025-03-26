@@ -15,6 +15,7 @@ public record OrderCreatedEvent(
         List<OrderItem> orderItems,
         ZonedDateTime occurredAt
 ) implements DomainEvent {
+    private static final String EVENT_TYPE = "order.created";
 
     public record Receiver(
             String name,
@@ -30,5 +31,15 @@ public record OrderCreatedEvent(
             long unitPrice,
             int quantity
     ) {
+    }
+
+    @Override
+    public String aggregateId() {
+        return ordererId().toString();
+    }
+
+    @Override
+    public String eventType() {
+        return EVENT_TYPE;
     }
 }

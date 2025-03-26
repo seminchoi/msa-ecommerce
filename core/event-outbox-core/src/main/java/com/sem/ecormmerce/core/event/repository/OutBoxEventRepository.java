@@ -1,4 +1,4 @@
-package com.sem.ecommerce.infra.event;
+package com.sem.ecormmerce.core.event.repository;
 
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 

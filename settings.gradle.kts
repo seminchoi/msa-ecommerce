@@ -3,8 +3,9 @@ rootProject.name = "ecommerce"
 include("service-discovery")
 include("gateway-service")
 
-include(":event-core")
+include(":event-core", "event-outbox-core")
 project(":event-core").projectDir = file("core/event-core")
+project(":event-outbox-core").projectDir = file("core/event-outbox-core")
 
 // auth
 include("auth")

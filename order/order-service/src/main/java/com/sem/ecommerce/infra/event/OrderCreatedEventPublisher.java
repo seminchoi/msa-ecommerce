@@ -12,6 +12,8 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.time.ZonedDateTime;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -24,15 +26,16 @@ public class OrderCreatedEventPublisher implements OrderCreatedEventPublisherPor
 
     @Override
     public Mono<Void> publish(OrderCreatedEvent event) {
-        byte[] eventData = null;
+        String eventData = null;
         try {
-            eventData = objectMapper.writeValueAsBytes(event);
+            eventData = objectMapper.writeValueAsString(event);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
 
-        Message<byte[]> message = MessageBuilder
+        Message<String> message = MessageBuilder
                 .withPayload(eventData)
+                .setHeader("correlation-id", event.eventId())
                 .setHeader("event-type", EVENT_TYPE)
                 .build();
 
@@ -40,3 +43,4 @@ public class OrderCreatedEventPublisher implements OrderCreatedEventPublisherPor
                 .then();
     }
 }
+
