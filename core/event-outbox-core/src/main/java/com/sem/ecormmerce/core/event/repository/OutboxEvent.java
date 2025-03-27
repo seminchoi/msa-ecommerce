@@ -1,6 +1,5 @@
 package com.sem.ecormmerce.core.event.repository;
 
-import com.sem.ecormmerce.core.event.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,7 +27,7 @@ public class OutboxEvent {
 
     private String payload;
 
-    private ZonedDateTime processedAt;
+    private ZonedDateTime occurredAt;
 
     private OutboxStatus status;
 

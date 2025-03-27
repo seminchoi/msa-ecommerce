@@ -11,15 +11,17 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
 @Slf4j
 public class RabbitConfig {
     @Autowired
     private RabbitTemplate rabbitTemplate;
-
     @Autowired
     private AmqpAdmin amqpAdmin;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @Bean
     public ObjectMapper objectMapper() {
@@ -31,27 +33,7 @@ public class RabbitConfig {
     @PostConstruct
     public void init() {
         createExchanges();
-        // 메시지 확인 콜백 설정 - 브로커에게 메시지가 전달되었는지 확인
-        rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
-            if (ack) {
-                log.info("Message with correlation ID: {} was acknowledged by broker",
-                        correlationData.getId());
-            } else {
-                log.error("Message with correlation ID: {} was not acknowledged by broker. Cause: {}",
-                        correlationData.getId(), cause);
-
-            }
-        });
-
-        // 반환된 메시지 콜백 설정 - 라우팅할 수 없는 메시지 처리
-        rabbitTemplate.setReturnsCallback(returned -> {
-            log.error("Message returned from broker: {} with routing key: {} to exchange: {}. Reply: {}",
-                    returned.getMessage(), returned.getRoutingKey(),
-                    returned.getExchange(), returned.getReplyText());
-            // 여기서 반환된 메시지를 처리할 수 있음
-        });
     }
-
 
     private void createExchanges() {
         Exchange exchange = new TopicExchange("orders", true, false);

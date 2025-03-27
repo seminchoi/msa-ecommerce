@@ -4,6 +4,7 @@ plugins {
     id("web-convention")
     id("r2dbc-postgres-convention")
     id("rabbitmq-convention")
+    id("shedlock-convention")
 }
 
 tasks {
@@ -18,4 +19,5 @@ tasks {
 
 dependencies {
     api(project(":order-domain"))
+    api(project(":event-outbox-core"))
 }

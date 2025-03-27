@@ -16,7 +16,7 @@ project(":product-domain").projectDir = file("product/product-domain")
 
 
 // order
-include(":order-service", ":order-domain", ":order-api")
+include(":order-service", ":order-domain", ":order-api", "order-scheduler-app")
 project(":order-domain").projectDir = file("order/order-domain")
 project(":order-service").projectDir = file("order/order-service")
 project(":order-api").projectDir = file("order/order-api")

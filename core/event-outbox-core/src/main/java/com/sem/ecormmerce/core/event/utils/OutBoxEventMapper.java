@@ -36,7 +36,7 @@ public class OutBoxEventMapper {
                 .eventType(event.eventType())
                 .payload(payload)
                 .status(OutboxEvent.OutboxStatus.PENDING)
-                .processedAt(ZonedDateTime.now())
+                .occurredAt(ZonedDateTime.now())
                 .build();
     }
 }
