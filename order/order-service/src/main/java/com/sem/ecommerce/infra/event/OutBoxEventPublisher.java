@@ -1,9 +1,7 @@
 package com.sem.ecommerce.infra.event;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sem.ecommerce.domain.order.event.OrderCreatedEvent;
 import com.sem.ecormmerce.core.event.repository.OutboxEvent;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -16,19 +14,19 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @RequiredArgsConstructor
 public class OutBoxEventPublisher {
+    //TODO: outbinding 을 ENUM으로 할지, 통합된 채널을 사용할 지 고민해야함
     private static final String OUTPUT_BINDING = "orderProcessor-out-0";
 
-    private final StreamBridge streamBridge;
+    private final CircuitBreakerMessagePublisher messagePublisher;
 
-    public Mono<Void> publish(OutboxEvent event) {
+    @CircuitBreaker(name = "rabbitMq")
+    public boolean publish(OutboxEvent event) {
         Message<String> message = MessageBuilder
                 .withPayload(event.getPayload())
                 .setHeader("correlation-id", event.getId())
                 .setHeader("event-type", event.getEventType())
                 .build();
 
-        return Mono.fromCallable(() -> streamBridge.send(OUTPUT_BINDING, message))
-                .then();
+        return messagePublisher.send(OUTPUT_BINDING, message);
     }
 }
-
