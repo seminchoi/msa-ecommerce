@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Component
 @RequiredArgsConstructor
@@ -24,7 +25,9 @@ public class OutboxSchedulerProcessor {
 
     public Mono<Void> processPublish() {
         CircuitBreaker messagingService = circuitBreakerRegistry.circuitBreaker("messaging-service");
-        CircuitBreaker.State state = messagingService.getState();
+        CircuitBreaker.State state = messagingService.getEventPublisher().onStateTransition(
+                event -> event.getStateTransition()
+        );
 
         return switch (state) {
             case OPEN -> processMessagingFallback();
@@ -38,7 +41,27 @@ public class OutboxSchedulerProcessor {
     }
 
     public Mono<Void> processMessagingFallback() {
-        return Mono.empty();
+        CircuitBreaker messagingService = circuitBreakerRegistry.circuitBreaker("messaging-service");
+        CircuitBreaker.State state = messagingService.getState();
+
+        // 장애 복구 테스트 상황
+        if(!curHealthState.get() && state.equals(CircuitBreaker.State.HALF_OPEN)) {
+
+        }
+
+        // 장애 완전 복구 상황
+        if(!curHealthState.get() && state.equals(CircuitBreaker.State.CLOSED) {
+            curHealthState.set(true);
+        }
+
+        // 장애 발생 상황
+        if(curHealthState.get() && state.equals(CircuitBreaker.State.OPEN)) {
+            curHealthState.set(false);
+        }
+
+
+        // 장애 발생 상황
+        if()
     }
 
     private Mono<Void> updateSentEvents() {
