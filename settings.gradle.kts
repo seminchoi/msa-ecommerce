@@ -14,6 +14,10 @@ include("auth")
 include(":product-domain")
 project(":product-domain").projectDir = file("product/product-domain")
 
+// payment
+include(":payment-infra", ":payment-app")
+project(":payment-app").projectDir = file("payment-service/payment-app")
+project(":payment-infra").projectDir = file("payment-service/payment-infra")
 
 // order
 include(":order-service", ":order-domain", ":order-api", "order-scheduler-app")
