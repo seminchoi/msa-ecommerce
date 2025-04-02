@@ -1,4 +1,4 @@
-package com.sem.ecommerce.infra.event;
+package com.sem.ecommerce.infra;
 
 
 import lombok.extern.slf4j.Slf4j;
@@ -10,22 +10,20 @@ import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(SpringExtension.class)
-@Import(RabbitAutoConfiguration.class)
+@ContextConfiguration(classes = { RabbitAutoConfiguration.class
+})
 @Slf4j
 public class RabbitBasicTest {
     @Container
@@ -49,6 +47,5 @@ public class RabbitBasicTest {
 
         // 간단한 메시지 전송 테스트
         rabbitTemplate.convertAndSend("orders", "test-routing-key", "Hello RabbitMQ", new CorrelationData(UUID.randomUUID().toString()));
-        TimeUnit.SECONDS.sleep(10);
     }
 }

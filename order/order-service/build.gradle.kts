@@ -5,6 +5,7 @@ plugins {
     id("r2dbc-postgres-convention")
     id("rabbitmq-convention")
     id("shedlock-convention")
+    id("reactive-redis-convention")
     id("springcloud-convention")
 }
 
