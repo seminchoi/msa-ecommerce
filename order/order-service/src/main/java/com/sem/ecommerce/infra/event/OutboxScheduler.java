@@ -23,9 +23,10 @@ public class OutboxScheduler {
             lockAtMostFor = "${events.outbox.most-lock-time}"
     )
     @Transactional
-    public Mono<Void> publishOutboxEvents() {
-        return updateSentEvents()
-                .then(publishEvents());
+    public void publishOutboxEvents() {
+        updateSentEvents()
+                .then(publishEvents())
+                .block();
     }
 
     // Publish Confirm을 통해 ACK를 받고 캐싱한 이벤트들을 DB에 SENT상태로 업데이트 합니다.

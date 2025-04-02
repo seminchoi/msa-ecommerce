@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.junit.jupiter.Container;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,15 +49,17 @@ public class ShedLockSchedulerTest {
         @Scheduled(initialDelay = 0, fixedDelay = 100)
         @SchedulerLock(
                 name = "test-schedule-lock",
-                lockAtLeastFor = "10s",
+                lockAtLeastFor = "100ms",
                 lockAtMostFor = "10s"
         )
         public void schedule() {
             Mono.fromCallable(() -> {
                         executedCount+=1;
+                        Thread.sleep(1100);
                         return null;
                     })
-                    .subscribe();
+                    .subscribeOn(Schedulers.boundedElastic())
+                    .block();
         }
     }
 }
