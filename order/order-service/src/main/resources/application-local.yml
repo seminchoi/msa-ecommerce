@@ -38,3 +38,9 @@ spring:
     password: guest
     publisher-confirm-type: correlated
     publisher-returns: true
+
+events:
+  outbox:
+    publish-rate: 500
+    least-lock-time: 400ms
+    most-lock-time: 1000ms

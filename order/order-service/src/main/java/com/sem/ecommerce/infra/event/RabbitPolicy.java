@@ -18,7 +18,8 @@ public class RabbitPolicy {
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
             if (ack) {
                 if(correlationData != null) {
-                    outBoxCache.addAckedOutboxEvent(correlationData.getId()).subscribe();
+                    outBoxCache.addAckedOutboxEvent(correlationData.getId())
+                            .subscribe();
                 }
             }
         });
