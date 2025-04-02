@@ -17,9 +17,8 @@ public class OutBoxEventPublisher {
     //TODO: outbinding 을 ENUM으로 할지, 통합된 채널을 사용할 지 고민해야함
     private static final String OUTPUT_BINDING = "orderProcessor-out-0";
 
-    private final CircuitBreakerMessagePublisher messagePublisher;
+    private final StreamBridge streamBridge;
 
-    @CircuitBreaker(name = "rabbitMq")
     public boolean publish(OutboxEvent event) {
         Message<String> message = MessageBuilder
                 .withPayload(event.getPayload())
@@ -27,6 +26,6 @@ public class OutBoxEventPublisher {
                 .setHeader("event-type", event.getEventType())
                 .build();
 
-        return messagePublisher.send(OUTPUT_BINDING, message);
+        return streamBridge.send(OUTPUT_BINDING, message);
     }
 }
