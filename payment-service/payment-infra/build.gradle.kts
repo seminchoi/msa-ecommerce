@@ -21,4 +21,6 @@ tasks {
 
 dependencies {
     api(project(":event-outbox-core"))
+    api(project(":mapper-core"))
+    api(project(":payment-domain"))
 }

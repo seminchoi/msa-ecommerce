@@ -1,7 +1,9 @@
 package com.sem.ecommerce.payment.infra;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentServicePort;
+import com.sem.ecommerce.payment.infra.repository.ProcessedEvent;
+import com.sem.ecommerce.payment.infra.repository.ProcessedEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +23,6 @@ public class OrderCreatedEventConsumer {
 
     private final PaymentServicePort paymentService;
     private final ProcessedEventRepository processedEventRepository;
-    private final ObjectMapper objectMapper;
 
     @Bean
     public Function<Flux<Message<String>>, Flux<Void>> orderCreatedProcessor() {
@@ -37,12 +38,11 @@ public class OrderCreatedEventConsumer {
     public Mono<Void> processPayment(Message<String> message) {
         UUID eventId = message.getHeaders().get("correlation-id", UUID.class);
 
+        Payment payment = PaymentMapper.fromOrderCreatedMessage(message);
 
         return processedEventRepository.findById(eventId)
-                .switchIfEmpty(processedEventRepository.save(new ProcessedEvent(eventId))
-                                .then(do)
-                    doProcessPayment(message)
-                            .then();
-                });
+                .switchIfEmpty(processedEventRepository.save(new ProcessedEvent(eventId)))
+                .flatMap(savedEvent -> paymentService.processPayment(payment))
+                .then();
     }
 }

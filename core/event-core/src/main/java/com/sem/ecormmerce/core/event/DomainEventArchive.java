@@ -15,7 +15,7 @@ public class DomainEventArchive {
         return Collections.unmodifiableList(events);
     }
 
-    public void clear() {
+    public void clearEvents() {
         events.clear();
     }
 }

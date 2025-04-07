@@ -12,3 +12,7 @@ tasks {
         enabled = true
     }
 }
+
+dependencies {
+    api(project(":event-core"))
+}
