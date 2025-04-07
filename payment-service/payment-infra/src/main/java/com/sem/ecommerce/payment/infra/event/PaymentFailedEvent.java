@@ -1,6 +1,6 @@
 package com.sem.ecommerce.payment.infra.event;
 
-import com.sem.ecormmerce.core.event.DomainEvent;
+import com.sem.ecommerce.core.event.DomainEvent;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

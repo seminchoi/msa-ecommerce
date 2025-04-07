@@ -1,17 +1,69 @@
 spring:
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/payment_db
+    username: root
+    password: root
+    pool:
+      initial-size: 5
+      max-size: 20
+      max-idle-time: 30m
+
   cloud:
     stream:
       function:
-        definition: orderCreatedProcessor; paymentTimeoutProcessor
+        definition: orderCreatedProcessor;paymentTimeoutProcessor
       bindings:
         orderCreatedProcessor-in-0:
           destination: orders
           group: payment-service
           consumer:
+            max-attempts: 3
+            back-off-initial-interval: 1000
+            back-off-multiplier: 5.0
+            back-off-max-interval: 125000
+
+        paymentTimeoutProcessor-in-0:
+          destination: payment.timeout
+          group: payment-service
+          consumer:
             max-attempts: 1
+
+        paymentProcessor-out-0:
+          destination: payments
+          content-type: application/json
+
       rabbit:
         bindings:
           orderCreatedProcessor-in-0:
             consumer:
-              bindingRoutingKey: order.created.#
+              bindingRoutingKey: order.created
               exchangeType: topic
+              autoBindDlq: true
+              deadLetterQueueName: order.created.dlq
+              deadLetterExchange: order.created.dlx
+              deadLetterRoutingKey: order.created
+              requeueRejected: false
+
+          paymentTimeoutProcessor-in-0:
+            consumer:
+              queueNameGroupOnly: true
+              bindingRoutingKey: payment.timeout
+              exchangeType: topic
+
+          paymentProcessor-out-0:
+            producer:
+              routingKeyExpression: headers['event-type']
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
+
+events:
+  outbox:
+    publish-rate: 500
+    least-lock-time: 400ms
+    most-lock-time: 1000ms

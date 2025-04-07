@@ -1,4 +1,4 @@
-package com.sem.ecormmerce.core.event;
+package com.sem.ecommerce.core.event;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

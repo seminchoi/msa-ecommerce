@@ -1,7 +1,7 @@
 package com.sem.ecommerce.domain.order;
 
 import com.sem.ecommerce.domain.order.event.OrderCreatedEvent;
-import com.sem.ecormmerce.core.event.DomainEventArchive;
+import com.sem.ecommerce.core.event.DomainEventArchive;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -10,9 +10,7 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode(of = "id")

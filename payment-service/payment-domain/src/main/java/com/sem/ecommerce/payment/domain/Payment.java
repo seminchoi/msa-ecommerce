@@ -1,6 +1,6 @@
 package com.sem.ecommerce.payment.domain;
 
-import com.sem.ecormmerce.core.event.DomainEventArchive;
+import com.sem.ecommerce.core.event.DomainEventArchive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;

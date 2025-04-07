@@ -1,7 +1,7 @@
-package com.sem.ecormmerce.core.event.repository;
+package com.sem.ecommerce.core.event.repository;
 
-import com.sem.ecormmerce.core.event.DomainEvent;
-import com.sem.ecormmerce.core.event.utils.OutBoxEventMapper;
+import com.sem.ecommerce.core.event.DomainEvent;
+import com.sem.ecommerce.core.event.utils.OutBoxEventMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;

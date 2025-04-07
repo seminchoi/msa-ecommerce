@@ -1,9 +1,9 @@
 package com.sem.ecommerce.payment.infra.event;
 
-import com.sem.ecommerce.payment.domain.PaymentServicePort;
+import com.sem.ecommerce.payment.infra.repository.ProcessedEvent;
 import com.sem.ecommerce.payment.infra.repository.ProcessedEventRepository;
-import com.sem.ecormmerce.core.event.repository.DomainEventRepository;
-import com.sem.ecormmerce.core.mapper.MapperUtils;
+import com.sem.ecommerce.core.event.repository.DomainEventRepository;
+import com.sem.ecommerce.core.mapper.MapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -22,10 +22,8 @@ import java.util.function.Consumer;
 @Slf4j
 @RequiredArgsConstructor
 public class PaymentFailedEventConsumer {
-
-    private final PaymentServicePort paymentService;
-    private final ProcessedEventRepository processedEventRepository;
     private final DomainEventRepository domainEventRepository;
+    private final ProcessedEventRepository processedEventRepository;
     private final StreamBridge streamBridge;
     private static final String PAYMENT_FAILED_BINDING = "orderProcessor-out-0";
 
@@ -41,33 +39,27 @@ public class PaymentFailedEventConsumer {
     }
 
     private Mono<Void> processFailedPayment(Message<String> message) {
-        try {
-            // 메시지 헤더에서 correlation-id 추출 (OrderCreatedEvent의 eventId)
-            UUID orderEventId = message.getHeaders().get("correlation-id", UUID.class);
+        // 메시지 헤더에서 correlation-id 추출 (OrderCreatedEvent의 eventId)
+        UUID eventId = message.getHeaders().get("correlation-id", UUID.class);
 
-            // 원본 메시지에서 orderId 추출
-            OrderCreatedEvent orderCreatedEvent = MapperUtils.fromJson(message.getPayload(), OrderCreatedEvent.class);
-            UUID orderId = orderCreatedEvent.orderId();
+        // 원본 메시지에서 orderId 추출
+        OrderCreatedEvent orderCreatedEvent = MapperUtils.fromJson(message.getPayload(), OrderCreatedEvent.class);
+        UUID orderId = orderCreatedEvent.orderId();
 
-            // 결제 실패 이벤트 생성
-            PaymentFailedEvent paymentFailedEvent = new PaymentFailedEvent(
-                    UUID.randomUUID(),
-                    orderId,
-                    ZonedDateTime.now()
-            );
+        // 결제 실패 이벤트 생성
+        PaymentFailedEvent paymentFailedEvent = new PaymentFailedEvent(
+                UUID.randomUUID(),
+                orderId,
+                ZonedDateTime.now()
+        );
 
-            // 이벤트 저장 및 발행
-            return domainEventRepository.save(paymentFailedEvent)
-                    .doOnSuccess(v -> {
-                        log.info("Payment failed event saved for order: {}", orderId);
-                        // StreamBridge를 사용하여 결제 실패 이벤트 발행
-                        publishPaymentFailedEvent(paymentFailedEvent);
-                    });
-        } catch (Exception e) {
-            log.error("Error processing dead letter message: {}", e.getMessage(), e);
-            return Mono.empty();
-        }
+        return processedEventRepository.findById(eventId)
+                .switchIfEmpty(processedEventRepository.save(new ProcessedEvent(eventId)))
+                .then(domainEventRepository.save(paymentFailedEvent))
+                .doOnSuccess(v -> publishPaymentFailedEvent(paymentFailedEvent))
+                .then();
     }
+
 
     private void publishPaymentFailedEvent(PaymentFailedEvent event) {
         try {

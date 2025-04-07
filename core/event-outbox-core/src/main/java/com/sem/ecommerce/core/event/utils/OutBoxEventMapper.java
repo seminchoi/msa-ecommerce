@@ -1,8 +1,8 @@
-package com.sem.ecormmerce.core.event.utils;
+package com.sem.ecommerce.core.event.utils;
 
-import com.sem.ecormmerce.core.event.DomainEvent;
-import com.sem.ecormmerce.core.event.repository.OutboxEvent;
-import com.sem.ecormmerce.core.mapper.MapperUtils;
+import com.sem.ecommerce.core.event.DomainEvent;
+import com.sem.ecommerce.core.event.repository.OutboxEvent;
+import com.sem.ecommerce.core.mapper.MapperUtils;
 
 import java.time.ZonedDateTime;
 

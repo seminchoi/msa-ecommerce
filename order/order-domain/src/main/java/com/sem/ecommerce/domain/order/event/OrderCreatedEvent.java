@@ -1,7 +1,7 @@
 package com.sem.ecommerce.domain.order.event;
 
 import com.sem.ecommerce.domain.order.Order;
-import com.sem.ecormmerce.core.event.DomainEvent;
+import com.sem.ecommerce.core.event.DomainEvent;
 
 import java.time.ZonedDateTime;
 import java.util.List;

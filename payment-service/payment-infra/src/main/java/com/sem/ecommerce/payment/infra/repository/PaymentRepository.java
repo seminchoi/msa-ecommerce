@@ -2,8 +2,7 @@ package com.sem.ecommerce.payment.infra.repository;
 
 import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentRepositoryPort;
-import com.sem.ecormmerce.core.event.repository.DomainEventRepository;
-import com.sem.ecormmerce.core.event.repository.OutBoxEventRepository;
+import com.sem.ecommerce.core.event.repository.DomainEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;

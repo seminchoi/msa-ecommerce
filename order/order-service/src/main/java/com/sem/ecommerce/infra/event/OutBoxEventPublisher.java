@@ -1,14 +1,12 @@
 package com.sem.ecommerce.infra.event;
 
-import com.sem.ecormmerce.core.event.repository.OutboxEvent;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import com.sem.ecommerce.core.event.repository.OutboxEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 @Component
 @Slf4j
