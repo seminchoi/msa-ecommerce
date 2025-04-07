@@ -27,13 +27,6 @@ public class RabbitConfig {
     private static final String ORDER_CREATED_DLX = "order.created.dlx";
     private static final String ORDER_CREATED_DLQ = "order.created.dlq";
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        return objectMapper;
-    }
-
     @PostConstruct
     public void init() {
         createExchanges();
@@ -41,6 +34,10 @@ public class RabbitConfig {
     }
 
     private void createExchanges() {
+        // orders exchange 생성 코드가 있나요?
+        Exchange exchange = new TopicExchange(ORDERS_EXCHANGE, true, false);
+        amqpAdmin.declareExchange(exchange);
+
         // 데드 레터 교환기 생성
         Exchange dlx = new DirectExchange(ORDER_CREATED_DLX, true, false);
         amqpAdmin.declareExchange(dlx);
