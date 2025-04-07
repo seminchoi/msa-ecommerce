@@ -1,4 +1,4 @@
-package com.sem.ecommerce.payment.infra;
+package com.sem.ecommerce.payment.infra.event;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;

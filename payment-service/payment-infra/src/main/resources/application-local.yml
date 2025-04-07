@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    stream:
+      function:
+        definition: orderCreatedProcessor; paymentTimeoutProcessor
+      bindings:
+        orderCreatedProcessor-in-0:
+          destination: orders
+          group: payment-service
+          consumer:
+            max-attempts: 1
+      rabbit:
+        bindings:
+          orderCreatedProcessor-in-0:
+            consumer:
+              bindingRoutingKey: order.created.#
+              exchangeType: topic

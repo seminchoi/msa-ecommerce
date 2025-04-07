@@ -1,7 +1,8 @@
-package com.sem.ecommerce.payment.infra;
+package com.sem.ecommerce.payment.infra.event;
 
 import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentServicePort;
+import com.sem.ecommerce.payment.infra.PaymentMapper;
 import com.sem.ecommerce.payment.infra.repository.ProcessedEvent;
 import com.sem.ecommerce.payment.infra.repository.ProcessedEventRepository;
 import lombok.RequiredArgsConstructor;
