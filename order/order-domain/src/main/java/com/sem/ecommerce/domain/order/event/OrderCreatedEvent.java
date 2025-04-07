@@ -1,10 +1,12 @@
 package com.sem.ecommerce.domain.order.event;
 
+import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecormmerce.core.event.DomainEvent;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public record OrderCreatedEvent(
         UUID eventId,
@@ -31,6 +33,35 @@ public record OrderCreatedEvent(
             long unitPrice,
             int quantity
     ) {
+    }
+
+    public static OrderCreatedEvent from(Order order) {
+        // OrderItem을 OrderCreatedEvent.OrderItem으로 변환
+        List<OrderItem> eventItems = order.getOrderItems().getOrderItems().stream()
+                .map(item -> new OrderItem(
+                        item.getId(),
+                        item.getCatalogId(),
+                        item.getUnitPrice(),
+                        item.getQuantity()
+                ))
+                .collect(Collectors.toList());
+
+        // Receiver를 OrderCreatedEvent.Receiver로 변환
+        Receiver eventReceiver = new Receiver(
+                order.getReceiver().name(),
+                order.getReceiver().phoneNumber(),
+                order.getReceiver().address()
+        );
+
+        return new OrderCreatedEvent(
+                UUID.randomUUID(),
+                order.getId(),
+                order.getOrdererId(),
+                order.getOrderItems().calculateTotalPrice(),
+                eventReceiver,
+                eventItems,
+                ZonedDateTime.now()
+        );
     }
 
     @Override

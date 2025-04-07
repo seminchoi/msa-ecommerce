@@ -1,5 +1,6 @@
 package com.sem.ecommerce.domain.order;
 
+import com.sem.ecommerce.domain.order.event.OrderCreatedEvent;
 import com.sem.ecormmerce.core.event.DomainEventArchive;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -9,7 +10,9 @@ import lombok.Getter;
 import lombok.experimental.Delegate;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Getter
 @EqualsAndHashCode(of = "id")
@@ -41,4 +44,22 @@ public class Order {
     @Delegate
     @Builder.Default
     private DomainEventArchive archive = new DomainEventArchive();
+
+    public static Order create(UUID ordererId, Receiver receiver, OrderItems orderItems) {
+        UUID orderId = UUID.randomUUID();
+        Order order = Order.builder()
+                .id(orderId)
+                .ordererId(ordererId)
+                .receiver(receiver)
+                .orderItems(orderItems)
+                .orderState(OrderState.NONE)
+                .createdAt(ZonedDateTime.now())
+                .updatedAt(ZonedDateTime.now())
+                .build();
+
+        OrderCreatedEvent event = OrderCreatedEvent.from(order);
+        order.register(event);
+
+        return order;
+    }
 }
