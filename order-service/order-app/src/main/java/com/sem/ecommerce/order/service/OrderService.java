@@ -1,4 +1,4 @@
-package com.sem.ecommerce.service;
+package com.sem.ecommerce.order.service;
 
 import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecommerce.domain.order.port.OrderServicePort;

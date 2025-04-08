@@ -1,4 +1,4 @@
-package com.sem.ecommerce.service.command;
+package com.sem.ecommerce.order.service.command;
 
 import com.sem.ecommerce.infra.dto.OrderItemDto;
 import com.sem.ecommerce.infra.dto.ReceiverDto;

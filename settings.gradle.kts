@@ -22,7 +22,7 @@ project(":payment-infra").projectDir = file("payment-service/payment-infra")
 project(":payment-app").projectDir = file("payment-service/payment-app")
 
 // order
-include(":order-service", ":order-domain", ":order-api")
-project(":order-domain").projectDir = file("order/order-domain")
-project(":order-service").projectDir = file("order/order-service")
-project(":order-api").projectDir = file("order/order-api")
+include(":order-domain", ":order-infra", ":order-app")
+project(":order-domain").projectDir = file("order-service/order-domain")
+project(":order-infra").projectDir = file("order-service/order-infra")
+project(":order-app").projectDir = file("order-service/order-app")
