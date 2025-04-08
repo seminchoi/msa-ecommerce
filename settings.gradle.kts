@@ -9,11 +9,11 @@ project(":event-outbox-core").projectDir = file("core/event-outbox-core")
 project(":mapper-core").projectDir = file("core/mapper-core")
 
 // auth
-include("auth")
+include("auth-service")
 
 // product
 include(":product-domain")
-project(":product-domain").projectDir = file("product/product-domain")
+project(":product-domain").projectDir = file("product-service/product-domain")
 
 // payment
 include("payment-domain", ":payment-infra", ":payment-app")
