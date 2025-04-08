@@ -1,5 +1,7 @@
 plugins {
     id("java-convention")
+    id("rabbitmq-convention")
+    id("reactive-redis-convention")
 }
 
 tasks {

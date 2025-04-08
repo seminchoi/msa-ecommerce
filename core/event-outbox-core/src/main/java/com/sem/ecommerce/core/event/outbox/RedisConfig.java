@@ -1,4 +1,4 @@
-package com.sem.ecommerce.infra.cache.config;
+package com.sem.ecommerce.core.event.outbox;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

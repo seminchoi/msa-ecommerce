@@ -1,6 +1,5 @@
-package com.sem.ecommerce.infra.event;
+package com.sem.ecommerce.core.event.outbox;
 
-import com.sem.ecommerce.core.event.repository.OutboxEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;

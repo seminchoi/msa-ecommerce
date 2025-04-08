@@ -1,6 +1,6 @@
 package com.sem.ecommerce.payment.infra.repository;
 
-import com.sem.ecommerce.core.event.repository.DomainEventRepository;
+import com.sem.ecommerce.core.event.outbox.DomainEventRepository;
 import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentRepositoryPort;
 import lombok.RequiredArgsConstructor;

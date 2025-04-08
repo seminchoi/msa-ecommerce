@@ -1,6 +1,6 @@
 package com.sem.ecommerce.payment.infra.event;
 
-import com.sem.ecommerce.core.event.repository.DomainEventRepository;
+import com.sem.ecommerce.core.event.outbox.DomainEventRepository;
 import com.sem.ecommerce.core.mapper.MapperUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

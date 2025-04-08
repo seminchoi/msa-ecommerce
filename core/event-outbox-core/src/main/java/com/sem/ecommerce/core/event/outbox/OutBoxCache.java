@@ -1,4 +1,4 @@
-package com.sem.ecommerce.infra.cache;
+package com.sem.ecommerce.core.event.outbox;
 
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.core.ReactiveSetOperations;

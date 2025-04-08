@@ -4,7 +4,7 @@ import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecommerce.infra.repository.model.OrderItemModel;
 import com.sem.ecommerce.infra.repository.model.OrderModel;
 import com.sem.ecommerce.infra.repository.model.OrderModelComposite;
-import com.sem.ecommerce.core.event.repository.DomainEventRepository;
+import com.sem.ecommerce.core.event.outbox.DomainEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;

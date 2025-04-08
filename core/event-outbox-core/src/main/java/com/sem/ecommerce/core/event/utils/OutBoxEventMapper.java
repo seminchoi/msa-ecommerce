@@ -1,7 +1,7 @@
 package com.sem.ecommerce.core.event.utils;
 
 import com.sem.ecommerce.core.event.DomainEvent;
-import com.sem.ecommerce.core.event.repository.OutboxEvent;
+import com.sem.ecommerce.core.event.outbox.OutboxEvent;
 import com.sem.ecommerce.core.mapper.MapperUtils;
 
 import java.time.ZonedDateTime;

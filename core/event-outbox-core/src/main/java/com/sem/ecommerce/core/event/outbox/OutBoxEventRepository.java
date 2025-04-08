@@ -1,4 +1,4 @@
-package com.sem.ecommerce.core.event.repository;
+package com.sem.ecommerce.core.event.outbox;
 
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 

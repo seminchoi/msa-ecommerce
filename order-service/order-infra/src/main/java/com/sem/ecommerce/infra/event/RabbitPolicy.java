@@ -1,6 +1,6 @@
 package com.sem.ecommerce.infra.event;
 
-import com.sem.ecommerce.infra.cache.OutBoxCache;
+import com.sem.ecommerce.core.event.outbox.OutBoxCache;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
