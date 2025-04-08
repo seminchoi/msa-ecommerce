@@ -37,9 +37,6 @@ public class PaymentMethodModel implements Persistable<UUID> {
     @Column("issuer")
     private String issuer;
 
-    @Column("is_default")
-    private Boolean isDefault;
-
     @Column("registered_at")
     private LocalDateTime registeredAt;
 
@@ -57,7 +54,6 @@ public class PaymentMethodModel implements Persistable<UUID> {
                 .type(paymentMethod.getType())
                 .maskedNumber(paymentMethod.getMaskedNumber())
                 .issuer(paymentMethod.getIssuer())
-                .isDefault(paymentMethod.isDefault())
                 .registeredAt(paymentMethod.getRegisteredAt())
                 .isNew(isNew)
                 .build();
@@ -70,7 +66,6 @@ public class PaymentMethodModel implements Persistable<UUID> {
                 .type(this.type)
                 .maskedNumber(this.maskedNumber)
                 .issuer(this.issuer)
-                .isDefault(this.isDefault)
                 .registeredAt(this.registeredAt)
                 .build();
     }

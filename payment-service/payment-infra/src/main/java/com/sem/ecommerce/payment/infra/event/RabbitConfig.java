@@ -1,9 +1,6 @@
 package com.sem.ecommerce.payment.infra.event;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -12,9 +9,7 @@ import org.springframework.amqp.core.Exchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -26,6 +21,7 @@ public class RabbitConfig {
     private static final String ORDER_CREATED_QUEUE = "order.created.queue";
     private static final String ORDER_CREATED_DLX = "order.created.dlx";
     private static final String ORDER_CREATED_DLQ = "order.created.dlq";
+    private static final Long ORDER_CREATED_TIMEOUT = 5 * 60 * 1000L;
 
     @PostConstruct
     public void init() {
@@ -34,7 +30,6 @@ public class RabbitConfig {
     }
 
     private void createExchanges() {
-        // orders exchange 생성 코드가 있나요?
         Exchange exchange = new TopicExchange(ORDERS_EXCHANGE, true, false);
         amqpAdmin.declareExchange(exchange);
 
@@ -48,7 +43,7 @@ public class RabbitConfig {
         Queue orderQueue = QueueBuilder.durable(ORDER_CREATED_QUEUE)
                 .withArgument("x-dead-letter-exchange", ORDER_CREATED_DLX)
                 .withArgument("x-dead-letter-routing-key", "order.created")
-                .withArgument("x-message-ttl", 30000) // 30초 타임아웃
+                .withArgument("x-message-ttl", ORDER_CREATED_TIMEOUT) // 30초 타임아웃
                 .build();
         amqpAdmin.declareQueue(orderQueue);
 

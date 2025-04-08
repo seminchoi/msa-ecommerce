@@ -1,4 +1,4 @@
-package com.sem.ecommerce.payment.infra.repository;
+package com.sem.ecommerce.payment.infra.event;
 
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 

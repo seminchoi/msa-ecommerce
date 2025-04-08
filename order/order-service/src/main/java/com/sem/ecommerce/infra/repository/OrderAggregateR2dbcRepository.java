@@ -25,7 +25,7 @@ public class OrderAggregateR2dbcRepository implements OrderAggregateRepository {
 
         return orderRepository.save(orderModelComposite.order())
                 .thenMany(orderItemRepository.saveAll(orderModelComposite.orderItems()))
-                .then(outBoxEventRepository.saveAll(order.getEvents()))
+                .then(outBoxEventRepository.publishAll(order.getEvents()))
                 .doOnSuccess(unused -> order.clearEvents())
                 .then();
     }

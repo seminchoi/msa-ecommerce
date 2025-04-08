@@ -1,7 +1,5 @@
 package com.sem.ecommerce.payment.infra.event;
 
-import com.sem.ecommerce.payment.infra.repository.ProcessedEvent;
-import com.sem.ecommerce.payment.infra.repository.ProcessedEventRepository;
 import com.sem.ecommerce.core.event.repository.DomainEventRepository;
 import com.sem.ecommerce.core.mapper.MapperUtils;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +53,7 @@ public class PaymentFailedEventConsumer {
 
         return processedEventRepository.findById(eventId)
                 .switchIfEmpty(processedEventRepository.save(new ProcessedEvent(eventId)))
-                .then(domainEventRepository.save(paymentFailedEvent))
+                .then(domainEventRepository.publish(paymentFailedEvent))
                 .doOnSuccess(v -> publishPaymentFailedEvent(paymentFailedEvent))
                 .then();
     }

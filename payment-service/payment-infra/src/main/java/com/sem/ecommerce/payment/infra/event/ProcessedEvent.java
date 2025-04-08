@@ -1,4 +1,4 @@
-package com.sem.ecommerce.payment.infra.repository;
+package com.sem.ecommerce.payment.infra.event;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

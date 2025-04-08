@@ -1,5 +1,6 @@
 package com.sem.ecommerce.payment;
 
+import com.sem.ecommerce.core.event.EventPublisher;
 import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentClientPort;
 import com.sem.ecommerce.payment.domain.PaymentRepositoryPort;
@@ -14,12 +15,14 @@ import reactor.core.publisher.Mono;
 public class PaymentService implements PaymentServicePort {
     private final PaymentClientPort paymentClient;
     private final PaymentRepositoryPort paymentRepository;
+    private final EventPublisher eventPublisher;
 
     @Transactional
     public Mono<Void> processPayment(Payment payment) {
-
         return paymentClient.processPayment(payment)
                 .then(paymentRepository.save(payment))
+                .then(eventPublisher.publishAll(payment.getEvents()))
+                .then(Mono.fromRunnable(payment::clearEvents))
                 .then();
     }
 }

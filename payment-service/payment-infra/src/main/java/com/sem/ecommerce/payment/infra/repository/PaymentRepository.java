@@ -1,8 +1,8 @@
 package com.sem.ecommerce.payment.infra.repository;
 
+import com.sem.ecommerce.core.event.repository.DomainEventRepository;
 import com.sem.ecommerce.payment.domain.Payment;
 import com.sem.ecommerce.payment.domain.PaymentRepositoryPort;
-import com.sem.ecommerce.core.event.repository.DomainEventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
@@ -22,7 +22,8 @@ public class PaymentRepository implements PaymentRepositoryPort {
         PaymentModel model = PaymentModel.from(payment, true);
 
         return paymentR2dbcRepository.save(model)
-                .then(domainEventRepository.saveAll(payment.getEvents()))
+                .then(domainEventRepository.publishAll(payment.getEvents())) // 이벤트 저장 로직 추가
+                .then(Mono.fromRunnable(payment::clearEvents)) // 이벤트 초기화
                 .then();
     }
 

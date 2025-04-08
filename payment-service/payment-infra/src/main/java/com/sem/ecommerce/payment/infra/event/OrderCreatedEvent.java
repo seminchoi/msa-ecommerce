@@ -7,6 +7,7 @@ public record OrderCreatedEvent(
         UUID eventId,
         UUID orderId,
         UUID ordererId,
+        UUID paymentMethodId,
         long totalPrice,
         ZonedDateTime occurredAt
 ) {
