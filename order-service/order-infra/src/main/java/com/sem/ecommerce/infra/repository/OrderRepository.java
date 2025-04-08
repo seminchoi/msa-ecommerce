@@ -1,6 +1,7 @@
 package com.sem.ecommerce.infra.repository;
 
 import com.sem.ecommerce.domain.order.Order;
+import com.sem.ecommerce.domain.order.port.OrderRepositoryPort;
 import com.sem.ecommerce.infra.repository.model.OrderItemModel;
 import com.sem.ecommerce.infra.repository.model.OrderModel;
 import com.sem.ecommerce.infra.repository.model.OrderModelComposite;
@@ -14,7 +15,7 @@ import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
-public class OrderAggregateR2dbcRepository implements OrderAggregateRepository {
+public class OrderRepository implements OrderRepositoryPort {
     private final OrderR2dbcRepository orderRepository;
     private final OrderItemR2dbcRepository orderItemRepository;
     private final DomainEventRepository outBoxEventRepository;
@@ -25,8 +26,6 @@ public class OrderAggregateR2dbcRepository implements OrderAggregateRepository {
 
         return orderRepository.save(orderModelComposite.order())
                 .thenMany(orderItemRepository.saveAll(orderModelComposite.orderItems()))
-                .then(outBoxEventRepository.publishAll(order.getEvents()))
-                .doOnSuccess(unused -> order.clearEvents())
                 .then();
     }
 

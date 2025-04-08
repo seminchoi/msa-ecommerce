@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class OrderR2dbcAggregateRepositoryTest {
     @Autowired
-    OrderAggregateR2dbcRepository orderR2dbcAggregateRepository;
+    OrderRepository orderR2dbcAggregateRepository;
 
     @Container
     @ServiceConnection
