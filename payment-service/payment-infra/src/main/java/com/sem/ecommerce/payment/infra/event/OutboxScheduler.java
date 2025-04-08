@@ -1,4 +1,4 @@
-package com.sem.ecommerce.infra.event;
+package com.sem.ecommerce.payment.infra.event;
 
 import com.sem.ecommerce.core.event.outbox.OutBoxEventPublisher;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class OutboxScheduler {
     )
     @Transactional
     public void publishOutboxEvents() {
-        outBoxEventPublisher.publish(OrderEventType.class)
+        outBoxEventPublisher.publish(PaymentEventType.class)
                 .block();
     }
 }

@@ -2,7 +2,6 @@ package com.sem.ecommerce.payment.infra.event;
 
 import com.sem.ecommerce.core.mapper.MapperUtils;
 import com.sem.ecommerce.payment.domain.Payment;
-import com.sem.ecommerce.payment.domain.PaymentMethodRepositoryPort;
 import com.sem.ecommerce.payment.domain.PaymentServicePort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,30 +19,28 @@ import java.util.function.Function;
 public class OrderCreatedEventConsumer {
     private final PaymentServicePort paymentService;
     private final ProcessedEventRepository processedEventRepository;
-    private final PaymentMethodRepositoryPort paymentMethodRepository;
 
     @Bean
     public Function<Flux<Message<String>>, Flux<Void>> orderCreatedProcessor() {
         return flux -> flux
-                .flatMap(this::processPayment)
+                .flatMap(this::consumeEvent)
                 .onErrorContinue((error, obj) -> {
                     log.error("Error processing order payment: {}", error.getMessage(), error);
                 });
     }
 
-    private Mono<Void> processPayment(Message<String> message) {
+    private Mono<Void> consumeEvent(Message<String> message) {
         OrderCreatedEvent event = MapperUtils.fromJson(message.getPayload(), OrderCreatedEvent.class);
-
 
         return processedEventRepository.findById(event.eventId())
                 .hasElement()
-                .flatMap(it -> {
-                    if (it) {
+                .flatMap(exists -> {
+                    if (exists) {
                         return Mono.empty();
-                    } else {
-                        return processedEventRepository.save(new ProcessedEvent(event.eventId()))
-                                .then(paymentService.processPayment(createPayment(event)));
                     }
+                    return processedEventRepository.save(new ProcessedEvent(event.eventId()))
+                            .then(paymentService.processPayment(createPayment(event)))
+                            .then();
                 });
     }
 
