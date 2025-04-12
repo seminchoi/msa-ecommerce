@@ -1,12 +1,13 @@
 package com.sem.ecommerce.order.service;
 
 import com.sem.ecommerce.core.event.EventPublisher;
-import com.sem.ecommerce.core.event.outbox.DomainEventRepository;
 import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecommerce.domain.order.OrderItem;
 import com.sem.ecommerce.domain.order.OrderItems;
+import com.sem.ecommerce.domain.order.OrderState;
 import com.sem.ecommerce.domain.order.Receiver;
 import com.sem.ecommerce.domain.order.port.OrderRepositoryPort;
+import com.sem.ecommerce.domain.order.port.OrderServicePort;
 import com.sem.ecommerce.order.service.command.CreateOrderCommand;
 import com.sem.ecommerce.order.service.dto.OrderItemDto;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderService implements OrderServicePort {
     private final OrderRepositoryPort orderRepository;
     private final EventPublisher eventPublisher;
 
@@ -48,6 +49,20 @@ public class OrderService {
         OrderItems items = new OrderItems(orderItems);
 
         return Order.create(command.ordererId(), receiver, items);
+    }
+
+    @Override
+    @Transactional
+    public Mono<Void> handleExpiredOrderCreated(UUID orderId) {
+        return orderRepository.findById(orderId)
+                .flatMap(order -> {
+                    if (order.getOrderState() == OrderState.PENDING) {
+                        order.markAsOrderFailed();
+                        return orderRepository.save(order);
+                    } else {
+                        return Mono.empty();
+                    }
+                });
     }
 
     public void cancelOrder() {

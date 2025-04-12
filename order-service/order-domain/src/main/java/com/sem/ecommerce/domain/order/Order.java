@@ -47,6 +47,10 @@ public class Order {
         return orderItems.calculateTotalPrice();
     }
 
+    public void markAsOrderFailed() {
+        orderState = OrderState.FAILED;
+    }
+
     public static Order create(UUID ordererId, Receiver receiver, OrderItems orderItems) {
         UUID orderId = UUID.randomUUID();
         Order order = Order.builder()
@@ -54,7 +58,7 @@ public class Order {
                 .ordererId(ordererId)
                 .receiver(receiver)
                 .orderItems(orderItems)
-                .orderState(OrderState.NONE)
+                .orderState(OrderState.PENDING)
                 .createdAt(ZonedDateTime.now())
                 .updatedAt(ZonedDateTime.now())
                 .build();
