@@ -21,7 +21,7 @@ public class OrderCreatedEventConsumer {
     private final ProcessedEventRepository processedEventRepository;
 
     @Bean
-    public Function<Flux<Message<String>>, Flux<Void>> orderCreatedProcessor() {
+    public Function<Flux<Message<String>>, Flux<Void>> orderCreatedConsumer() {
         return flux -> flux
                 .flatMap(this::consumeEvent)
                 .onErrorContinue((error, obj) -> {

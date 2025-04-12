@@ -21,7 +21,7 @@ public class PaymentDlqConsumer {
     private final ProcessedEventRepository processedEventRepository;
 
     @Bean
-    public Consumer<Flux<Message<String>>> orderCreatedDlqProcessor() {
+    public Consumer<Flux<Message<String>>> paymentDlqConsumer() {
         return flux -> flux
                 .doOnNext(message -> log.info("Processing dead letter message: {}", message.getPayload()))
                 .flatMap(this::processFailedPayment)

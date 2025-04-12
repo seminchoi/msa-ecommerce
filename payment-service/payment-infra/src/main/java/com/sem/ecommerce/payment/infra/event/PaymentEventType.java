@@ -1,7 +1,6 @@
 package com.sem.ecommerce.payment.infra.event;
 
 import com.sem.ecommerce.core.event.outbox.EventType;
-import com.sem.ecommerce.core.event.outbox.EventTypeHolder;
 import lombok.Getter;
 
 @Getter

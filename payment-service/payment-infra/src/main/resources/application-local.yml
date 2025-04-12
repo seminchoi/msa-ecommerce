@@ -11,9 +11,9 @@ spring:
   cloud:
     stream:
       function:
-        definition: orderCreatedProcessor;paymentTimeoutProcessor
+        definition: orderCreatedConsumer;paymentDlqConsumer
       bindings:
-        orderCreatedProcessor-in-0:
+        orderCreatedConsumer-in-0:
           destination: orders
           group: payment-service
           consumer:
@@ -22,8 +22,8 @@ spring:
             back-off-multiplier: 5.0
             back-off-max-interval: 125000
 
-        paymentTimeoutProcessor-in-0:
-          destination: payment.timeout
+        paymentDlqConsumer-in-0:
+          destination: order.created.dlq
           group: payment-service
           consumer:
             max-attempts: 1
@@ -34,20 +34,20 @@ spring:
 
       rabbit:
         bindings:
-          orderCreatedProcessor-in-0:
+          orderCreatedConsumer-in-0:
             consumer:
               bindingRoutingKey: order.created
               exchangeType: topic
               autoBindDlq: true
               deadLetterQueueName: order.created.dlq
               deadLetterExchange: order.created.dlx
-              deadLetterRoutingKey: order.created
+              deadLetterRoutingKey: payment.failed
               requeueRejected: false
 
-          paymentTimeoutProcessor-in-0:
+          paymentDlqConsumer-in-0:
             consumer:
               queueNameGroupOnly: true
-              bindingRoutingKey: payment.timeout
+              bindingRoutingKey: payment.failed
               exchangeType: topic
 
           paymentProcessor-out-0:

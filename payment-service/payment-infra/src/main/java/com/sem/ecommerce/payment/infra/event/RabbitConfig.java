@@ -21,7 +21,8 @@ public class RabbitConfig {
     private static final String ORDER_CREATED_QUEUE = "order.created.queue";
     private static final String ORDER_CREATED_DLX = "order.created.dlx";
     private static final String ORDER_CREATED_DLQ = "order.created.dlq";
-    private static final Long ORDER_CREATED_TIMEOUT = 5 * 60 * 1000L;
+    private static final Long ORDER_CREATED_TIMEOUT = 10 * 60 * 1000L;
+    private static final String PAYMENT_FAILED_ROUTING_KEY = "payment.failed";
 
     @PostConstruct
     public void init() {
@@ -42,8 +43,8 @@ public class RabbitConfig {
         // 메인 큐 생성 - 타임아웃 및 데드 레터 교환기 설정
         Queue orderQueue = QueueBuilder.durable(ORDER_CREATED_QUEUE)
                 .withArgument("x-dead-letter-exchange", ORDER_CREATED_DLX)
-                .withArgument("x-dead-letter-routing-key", "order.created")
-                .withArgument("x-message-ttl", ORDER_CREATED_TIMEOUT) // 30초 타임아웃
+                .withArgument("x-dead-letter-routing-key", PAYMENT_FAILED_ROUTING_KEY)
+                .withArgument("x-message-ttl", ORDER_CREATED_TIMEOUT)
                 .build();
         amqpAdmin.declareQueue(orderQueue);
 
@@ -58,10 +59,10 @@ public class RabbitConfig {
                 .build();
         amqpAdmin.declareQueue(dlq);
 
-        // 데드 레터 큐와 DLX 바인딩
+        // 데드 레터 큐와 DLX 바인딩 - payment.failed 라우팅 키 사용
         Binding dlqBinding = BindingBuilder.bind(dlq)
                 .to(new DirectExchange(ORDER_CREATED_DLX))
-                .with("order.created");
+                .with(PAYMENT_FAILED_ROUTING_KEY);
         amqpAdmin.declareBinding(dlqBinding);
     }
 }
