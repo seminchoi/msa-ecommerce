@@ -20,7 +20,7 @@ public class OutboxScheduler {
     )
     @Transactional
     public void publishOutboxEvents() {
-        outBoxEventPublisher.publish(OrderEventType.class)
+        outBoxEventPublisher.publish()
                 .block();
     }
 }

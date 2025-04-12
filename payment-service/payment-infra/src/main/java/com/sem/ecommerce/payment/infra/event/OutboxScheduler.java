@@ -20,7 +20,7 @@ public class OutboxScheduler {
     )
     @Transactional
     public void publishOutboxEvents() {
-        outBoxEventPublisher.publish(PaymentEventType.class)
+        outBoxEventPublisher.publish() // enumClass 인자 제거됨
                 .block();
     }
 }

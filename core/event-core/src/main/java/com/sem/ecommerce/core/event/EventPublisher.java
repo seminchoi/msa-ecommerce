@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface EventPublisher {
     Mono<Void> publish(DomainEvent event);
-    Mono<Void> publishAll(List<DomainEvent> event);
+    Mono<Void> publishAll(List<DomainEvent> events);
 }

@@ -27,12 +27,16 @@ public class OutBoxQueryRepository {
                 .then();
     }
 
-    public Flux<OutboxEvent> findAllCurrentPendingEvents(long period) {
-        ZonedDateTime startTime = ZonedDateTime.now().minusMinutes(period);
+    public Flux<OutboxEvent> findAllCurrentPendingEvents() {
+        ZonedDateTime now = ZonedDateTime.now();
 
         return r2dbcEntityTemplate.select(OutboxEvent.class)
                 .matching(Query.query(
-                        Criteria.where("occurred_at").greaterThanOrEquals(startTime)
+                        Criteria.where("status").is(OutboxEvent.OutboxStatus.PENDING)
+                                .and(
+                                        Criteria.where("expires_at").isNull()
+                                                .or(Criteria.where("expires_at").greaterThan(now))
+                                )
                 ))
                 .all();
     }

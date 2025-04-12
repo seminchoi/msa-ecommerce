@@ -17,7 +17,7 @@ public record PaymentCreatedEvent(
         PaymentStatus status,
         ZonedDateTime occurredAt
 ) implements DomainEvent {
-    private static final String EVENT_TYPE = "payment.created";
+    private static final String EVENT_TYPE = "PAYMENT_CREATED";
 
     public static PaymentCreatedEvent from(Payment payment) {
         return new PaymentCreatedEvent(

@@ -20,8 +20,10 @@ public class DomainEventRepository implements EventPublisher {
                 .then();
     }
 
-    public Mono<Void> publishAll(List<DomainEvent> domainEvent) {
-        List<OutboxEvent> outboxEvents = domainEvent.stream().map(OutBoxEventMapper::from).toList();
+    public Mono<Void> publishAll(List<DomainEvent> domainEvents) {
+        List<OutboxEvent> outboxEvents = domainEvents.stream()
+                .map(OutBoxEventMapper::from)
+                .toList();
         return outBoxEventRepository.saveAll(outboxEvents)
                 .then();
     }

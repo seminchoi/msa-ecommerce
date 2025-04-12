@@ -10,7 +10,15 @@ public record PaymentFailedEvent(
         UUID orderId,
         ZonedDateTime occurredAt
 ) implements DomainEvent {
-    private static final String EVENT_TYPE = "payment.timeout";
+    public static final String EVENT_TYPE = "PAYMENT_FAILED";
+
+    public static PaymentFailedEvent create(UUID orderId) {
+        return new PaymentFailedEvent(
+                UUID.randomUUID(),
+                orderId,
+                ZonedDateTime.now()
+        );
+    }
 
     @Override
     public String aggregateId() {

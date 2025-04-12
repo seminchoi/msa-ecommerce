@@ -1,7 +1,7 @@
 package com.sem.ecommerce.domain.order.event;
 
-import com.sem.ecommerce.domain.order.Order;
 import com.sem.ecommerce.core.event.DomainEvent;
+import com.sem.ecommerce.domain.order.Order;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -17,12 +17,13 @@ public record OrderCreatedEvent(
         List<OrderItem> orderItems,
         ZonedDateTime occurredAt
 ) implements DomainEvent {
+    private static final String EVENT_TYPE = "ORDER_CREATED";
+
     public record Receiver(
             String name,
             String phoneNumber,
             String address
     ) {
-
     }
 
     public record OrderItem(
@@ -69,6 +70,6 @@ public record OrderCreatedEvent(
 
     @Override
     public String eventType() {
-        return "ORDER_CREATED";
+        return EVENT_TYPE;
     }
 }
