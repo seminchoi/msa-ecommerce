@@ -39,7 +39,6 @@ public class OutBoxEventPublisher {
     }
 
     private boolean publishEvent(OutboxEvent event) {
-        // 이제 event에서 직접 outputBinding을 가져옴
         String outputBinding = event.getOutputBinding();
 
         Message<String> message = MessageBuilder

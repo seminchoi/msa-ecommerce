@@ -19,13 +19,13 @@ public class PaymentService implements PaymentServicePort {
     private final PaymentMethodRepositoryPort paymentMethodRepository;
     private final EventPublisher eventPublisher;
 
-    @Transactional
-    public Mono<Void> processPayment(Payment payment) {
-        return paymentMethodRepository.findById(payment.getPaymentMethodId())
-                .flatMap(paymentMethod -> paymentClient.processPayment(payment, paymentMethod))
-                .then(paymentRepository.save(payment))
-                .then(eventPublisher.publishAll(payment.getEvents()))
-                .then(Mono.fromRunnable(payment::clearEvents))
-                .then();
-    }
+@Transactional
+public Mono<Void> processPayment(Payment payment) {
+    return paymentMethodRepository.findById(payment.getPaymentMethodId())
+            .flatMap(paymentMethod -> paymentClient.processPayment(payment, paymentMethod))
+            .then(paymentRepository.save(payment))
+            .then(eventPublisher.publishAll(payment.getEvents()))
+            .then(Mono.fromRunnable(payment::clearEvents))
+            .then();
+}
 }

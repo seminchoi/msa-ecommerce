@@ -23,8 +23,8 @@ public class ExpiredEventScheduler {
     @Scheduled(fixedRateString = "${events.outbox.expired-check-rate:60000}")
     @SchedulerLock(
             name = "expiredEventScheduling",
-            lockAtLeastFor = "${events.outbox.least-lock-time:400ms}",
-            lockAtMostFor = "${events.outbox.most-lock-time:1000ms}"
+            lockAtLeastFor = "15s",
+            lockAtMostFor = "60s"
     )
     @Transactional
     public void processExpiredEvents() {
@@ -32,7 +32,7 @@ public class ExpiredEventScheduler {
         outBoxQueryRepository.findAllExpiredPendingEvents()
                 .flatMap(this::processExpiredEvent)
                 .doOnError(e -> log.error("Error processing expired event", e))
-                .subscribe();
+                .blockLast();
     }
 
     private Mono<Void> processExpiredEvent(OutboxEvent event) {
@@ -41,12 +41,7 @@ public class ExpiredEventScheduler {
         // 이벤트 타입별 처리 후 이벤트를 Failed로 표시
         Mono<Void> processingMono = switch (event.getEventKey()) {
             case "order.created" -> handleExpiredOrderCreatedEvent(event);
-            // 다른 이벤트 타입에 대한 case 추가 가능
-            // case "order.canceled" -> handleExpiredOrderCanceledEvent(event);
-            default -> {
-                log.warn("No handler found for event type: {}", event.getEventKey());
-                yield Mono.empty();
-            }
+            default -> Mono.empty();
         };
 
         // 처리 후 모든 이벤트를 Failed로 표시
@@ -71,8 +66,6 @@ public class ExpiredEventScheduler {
                     return Mono.empty();
                 });
     }
-
-    // 다른 이벤트 타입에 대한 처리 메서드 추가 가능
 
     private Mono<Void> markEventAsFailed(OutboxEvent event) {
         return outBoxQueryRepository.updateEventStatus(

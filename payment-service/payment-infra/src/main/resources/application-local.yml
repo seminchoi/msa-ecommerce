@@ -20,7 +20,9 @@ spring:
             max-attempts: 3
             back-off-initial-interval: 1000
             back-off-multiplier: 5.0
-            back-off-max-interval: 125000
+            back-off-max-interval: 10000
+
+
 
         paymentDlqConsumer-in-0:
           destination: order.created.dlq
