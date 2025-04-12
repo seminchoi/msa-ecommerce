@@ -17,8 +17,6 @@ public record OrderCreatedEvent(
         List<OrderItem> orderItems,
         ZonedDateTime occurredAt
 ) implements DomainEvent {
-    private static final String EVENT_TYPE = "order.created";
-
     public record Receiver(
             String name,
             String phoneNumber,
@@ -71,6 +69,6 @@ public record OrderCreatedEvent(
 
     @Override
     public String eventType() {
-        return EVENT_TYPE;
+        return "ORDER_CREATED";
     }
 }

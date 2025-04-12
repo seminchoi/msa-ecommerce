@@ -5,7 +5,8 @@ import lombok.Getter;
 
 @Getter
 public enum PaymentEventType implements EventType {
-    PAYMENT_COMPLETED("payment.created", "paymentProcessor-out-0");
+    PAYMENT_COMPLETED("payment.created", "paymentProcessor-out-0"),
+    PAYMENT_FAILED("payment.failed", "paymentProcessor-out-0");
 
     private final String eventKey;
     private final String outputBinding;

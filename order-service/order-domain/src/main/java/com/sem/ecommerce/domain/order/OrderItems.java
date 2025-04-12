@@ -1,5 +1,6 @@
 package com.sem.ecommerce.domain.order;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Builder;
 
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Builder
 public class OrderItems {
+    @NotEmpty
     private List<OrderItem> orderItems;
 
     public OrderItems(List<OrderItem> orderItems) {

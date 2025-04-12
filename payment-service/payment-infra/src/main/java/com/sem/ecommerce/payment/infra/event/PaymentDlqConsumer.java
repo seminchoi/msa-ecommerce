@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class PaymentFailedEventConsumer {
+public class PaymentDlqConsumer {
     private final DomainEventRepository domainEventRepository;
     private final ProcessedEventRepository processedEventRepository;
     private final StreamBridge streamBridge;
@@ -30,9 +30,6 @@ public class PaymentFailedEventConsumer {
         return flux -> flux
                 .doOnNext(message -> log.info("Processing dead letter message: {}", message.getPayload()))
                 .flatMap(this::processFailedPayment)
-                .onErrorContinue((error, obj) -> {
-                    log.error("Error processing dead letter message: {}", error.getMessage(), error);
-                })
                 .subscribe();
     }
 

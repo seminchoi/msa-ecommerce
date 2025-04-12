@@ -21,21 +21,17 @@ public interface EventType {
     /**
      * 이벤트 타입 문자열로부터 해당하는 enum 상수를 찾아 반환
      *
-     * @param eventKey 이벤트 타입 문자열 (예: "order.created")
+     * @param eventName 이벤트 타입 문자열 (예: "order.created")
      * @param enumClass 검색할 enum 클래스
      * @return 찾은 enum 상수, 없으면 Optional.empty()
      */
-    static <T extends Enum<T> & EventType> T fromEventKey(String eventKey, Class<T> enumClass) {
+    static <T extends Enum<T> & EventType> T fromEventKey(String eventName, Class<T> enumClass) {
         List<T> foundEvents = Arrays.stream(enumClass.getEnumConstants())
-                .filter(e -> e.getEventKey().equals(eventKey))
+                .filter(e -> e.name().equals(eventName))
                 .toList();
 
         if(foundEvents.isEmpty()) {
-            throw new IllegalArgumentException("There is no such event key: " + eventKey);
-        }
-
-        if(foundEvents.size() > 1) {
-            throw new IllegalStateException("Duplicate event key detected: " + eventKey);
+            throw new IllegalArgumentException("There is no such event key: " + eventName);
         }
 
         return foundEvents.get(0);

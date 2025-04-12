@@ -43,6 +43,10 @@ public class Order {
     @Builder.Default
     private DomainEventArchive archive = new DomainEventArchive();
 
+    public long calculateTotalPrice() {
+        return orderItems.calculateTotalPrice();
+    }
+
     public static Order create(UUID ordererId, Receiver receiver, OrderItems orderItems) {
         UUID orderId = UUID.randomUUID();
         Order order = Order.builder()
