@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class DomainEventRepository implements EventPublisher {
+public class OutboxEventPublisherApdapter implements EventPublisher {
     private final OutBoxEventRepository outBoxEventRepository;
 
     public Mono<Void> publish(DomainEvent domainEvent) {
