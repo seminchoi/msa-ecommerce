@@ -2,9 +2,11 @@ package com.sem.ecommerce.core.event.outbox;
 
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RabbitPolicy {
@@ -17,6 +19,7 @@ public class RabbitPolicy {
         rabbitTemplate.setConfirmCallback((correlationData, ack, cause) -> {
             if (ack) {
                 if(correlationData != null) {
+                    log.info("CorrelationId: " + correlationData.getId());
                     outBoxCache.addAckedOutboxEvent(correlationData.getId())
                             .subscribe();
                 }

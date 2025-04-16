@@ -34,6 +34,7 @@ public class OutBoxEventPublisher {
 
     private Mono<Void> publishEvents() {
         return outBoxQueryRepository.findAllCurrentPendingEvents()
+                .doOnNext(it -> log.info(it.getPayload()))
                 .map(this::publishEvent)
                 .then();
     }

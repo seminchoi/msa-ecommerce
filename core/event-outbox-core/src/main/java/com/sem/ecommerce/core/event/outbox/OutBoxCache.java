@@ -22,10 +22,12 @@ public class OutBoxCache {
     }
 
     public Flux<String> getAllAckedOutboxEvents() {
-        return setOps.members(KEY);
+        return setOps.members(KEY)
+                .map(Object::toString);
     }
 
     public Mono<Void> removeAckedOutboxEvent(List<String> ids) {
-        return setOps.remove(KEY, ids).then();
+        return Mono.empty();
+//        return setOps.remove(KEY, ids).then();
     }
 }

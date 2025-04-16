@@ -24,6 +24,7 @@ public class OutBoxEventMapper {
         String outputBinding = eventType.getOutputBinding();
         int expirationMinutes = eventType.getExpirationTimeInMinutes();
 
+        System.out.println(eventType.getEventKey());
         // 만료 시간 계산
         ZonedDateTime expiresAt = null;
         if (expirationMinutes > 0) {
@@ -33,7 +34,7 @@ public class OutBoxEventMapper {
         return OutboxEvent.builder()
                 .id(event.eventId())
                 .aggregateId(event.aggregateId())
-                .eventKey(eventKey)
+                .eventKey(eventType.getEventKey())
                 .outputBinding(outputBinding)
                 .expirationMinutes(expirationMinutes)
                 .payload(payload)

@@ -1,5 +1,30 @@
 spring:
+  cloud:
+    stream:
+      bindings:
+        testProcessor-out-0:
+          destination: test-exchange
+          content-type: application/json
+      rabbit:
+        bindings:
+          testProcessor-out-0:
+            producer:
+              routing-key-expression: headers.get('event-type')
   sql:
     init:
       mode: always
       schema-locations: classpath:init.sql
+
+  data:
+    redis:
+      host:
+      port:
+      password:
+
+  rabbitmq:
+    host:
+    port:
+    username: guest
+    password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
