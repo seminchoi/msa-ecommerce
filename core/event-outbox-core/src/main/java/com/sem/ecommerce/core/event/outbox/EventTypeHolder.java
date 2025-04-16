@@ -11,7 +11,7 @@ public class EventTypeHolder {
     }
 
     public static void registerEventType(EventType eventType) {
-        String eventKey = eventType.getEventKey();
+        String eventKey = eventType.name();
         if (EVENT_TYPE_MAP.containsKey(eventKey)) {
             throw new IllegalArgumentException("Duplicate EventType key detected: " + eventKey + " for types: " +
                     EVENT_TYPE_MAP.get(eventKey).getClass().getSimpleName() + " and " + eventType.getClass().getSimpleName());

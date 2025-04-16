@@ -5,6 +5,7 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
 import org.springframework.data.relational.core.query.Update;
+import org.springframework.r2dbc.core.DatabaseClient;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -12,6 +13,7 @@ import reactor.core.publisher.Mono;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,14 +21,29 @@ public class OutBoxQueryRepository {
     private final R2dbcEntityTemplate r2dbcEntityTemplate;
 
     public Mono<Void> updateAllPendingEventsToSent(List<String> ids) {
-        String sql = "UPDATE outbox SET state = 'SENT' WHERE state = 'PENDING' AND id IN ANY (:ids)";
+        if (ids.isEmpty()) {
+            return Mono.empty();
+        }
 
-        return r2dbcEntityTemplate.getDatabaseClient()
-                .sql(sql)
-                .bind("ids", ids)
-                .fetch()
-                .rowsUpdated()
-                .then();
+        StringBuilder placeholders = new StringBuilder();
+        for (int i = 0; i < ids.size(); i++) {
+            placeholders.append(i > 0 ? ", " : "").append(":id").append(i);
+        }
+
+        String sql = String.format(
+                "UPDATE outbox_event SET status = 'SENT' WHERE status = 'PENDING' AND id IN (%s)",
+                placeholders
+        );
+
+        var executeSpec = r2dbcEntityTemplate.getDatabaseClient().sql(sql);
+
+        // 각 ID를 개별적으로 바인딩
+        for (int i = 0; i < ids.size(); i++) {
+            final int index = i;
+            executeSpec = executeSpec.bind("id" + index, UUID.fromString(ids.get(index)));
+        }
+
+        return executeSpec.fetch().rowsUpdated().then();
     }
 
     public Flux<OutboxEvent> findAllCurrentPendingEvents() {

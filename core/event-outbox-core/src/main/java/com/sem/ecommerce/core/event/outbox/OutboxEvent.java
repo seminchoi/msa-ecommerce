@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.ZonedDateTime;
@@ -15,7 +17,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OutboxEvent {
+public class OutboxEvent implements Persistable<UUID> {
     @Id
     private UUID id;
 
@@ -30,6 +32,9 @@ public class OutboxEvent {
     private ZonedDateTime occurredAt;
     private ZonedDateTime expiresAt;
     private OutboxStatus status;
+
+    @Transient
+    private boolean isNew;
 
     public enum OutboxStatus {
         PENDING, SENT, FAILED

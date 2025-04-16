@@ -40,6 +40,7 @@ public class OutBoxEventMapper {
                 .status(OutboxEvent.OutboxStatus.PENDING)
                 .occurredAt(occurredAt)
                 .expiresAt(expiresAt)
+                .isNew(true)
                 .build();
     }
 }

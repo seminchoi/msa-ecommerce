@@ -1,6 +1,7 @@
 package com.sem.ecommerce.core.event.outbox;
 
 public interface EventType {
+    String name();
     /**
      * 이벤트 타입 문자열 반환 (예: "order.created")
      */

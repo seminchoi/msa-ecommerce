@@ -3,10 +3,11 @@ rootProject.name = "ecommerce"
 include("service-discovery")
 include("gateway-service")
 
-include(":event-core", "event-outbox-core", "mapper-core")
+include(":event-core", "event-outbox-core", "mapper-core", "r2dbc-converter-core")
 project(":event-core").projectDir = file("core/event-core")
 project(":event-outbox-core").projectDir = file("core/event-outbox-core")
 project(":mapper-core").projectDir = file("core/mapper-core")
+project(":r2dbc-converter-core").projectDir = file("core/r2dbc-converter-core")
 
 // auth
 include("auth-service")
